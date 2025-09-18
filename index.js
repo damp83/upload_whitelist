@@ -30,16 +30,12 @@ export default async ({ req, res, log, error }) => {
     }
 
     // Subir archivo usando buffer y nombre directamente (node-appwrite v19)
-    // Crear objeto tipo archivo para Appwrite v19
-    const fileObject = {
-      type: 'file',
-      buffer: buffer,
-      filename: `${Date.now()}_${safe}`
-    };
+    // Pasar buffer y nombre de archivo directamente
     const created = await storage.createFile(
       BUCKET_ID,
       sdk.ID.unique(),
-      fileObject,
+      buffer,
+      `${Date.now()}_${safe}`,
       [
         sdk.Permission.read(sdk.Role.any())
       ]
