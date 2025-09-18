@@ -1,4 +1,5 @@
 import * as sdk from 'node-appwrite';
+import { InputFile } from 'node-appwrite/file';
 
 export default async ({ req, res, log, error }) => {
   try {
@@ -30,12 +31,12 @@ export default async ({ req, res, log, error }) => {
     }
 
     // Subir archivo usando buffer y nombre directamente (node-appwrite v19)
-    // Pasar buffer y nombre de archivo directamente
+    // Usar InputFile para crear el archivo correctamente
+    const inputFile = InputFile.fromBuffer(buffer, `${Date.now()}_${safe}`);
     const created = await storage.createFile(
       BUCKET_ID,
       sdk.ID.unique(),
-      buffer,
-      `${Date.now()}_${safe}`,
+      inputFile,
       [
         sdk.Permission.read(sdk.Role.any())
       ]
