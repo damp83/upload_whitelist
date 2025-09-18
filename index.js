@@ -29,12 +29,12 @@ export default async ({ req, res, log, error }) => {
       return res.send(JSON.stringify({ error: 'Empty file' }), 400);
     }
 
-    // ¡Esta es la forma correcta!
-    const inputFile = sdk.InputFile.fromBuffer(buffer, `${Date.now()}_${safe}`);
+    // Subir archivo usando buffer y nombre directamente (node-appwrite v19)
     const created = await storage.createFile(
       BUCKET_ID,
       sdk.ID.unique(),
-      inputFile,
+      buffer,
+      `${Date.now()}_${safe}`,
       [
         sdk.Permission.read(sdk.Role.any())
       ]
